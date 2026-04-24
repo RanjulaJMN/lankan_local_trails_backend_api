@@ -5,6 +5,7 @@ import com.ranjulajmn.lankan_local_trails_backend_api.dto.PlaceResponseDTO;
 import com.ranjulajmn.lankan_local_trails_backend_api.service.interfaces.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
