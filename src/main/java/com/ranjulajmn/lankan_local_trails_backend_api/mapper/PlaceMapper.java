@@ -20,7 +20,6 @@ public class PlaceMapper {
         place.setClosingTime(dto.getClosingTime());
         place.setDistance(dto.getDistance());
         place.setTravelTips(dto.getTravelTips());
-        place.setImageUrl(dto.getImageUrl());
         return place;
     }
 

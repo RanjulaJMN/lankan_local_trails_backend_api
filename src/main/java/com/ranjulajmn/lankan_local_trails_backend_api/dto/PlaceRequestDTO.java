@@ -15,7 +15,6 @@ public class PlaceRequestDTO {
     private String closingTime;
     private Float distance;
     private String travelTips;
-    private String imageUrl;
 
     private List<Long> categoryIds;
 

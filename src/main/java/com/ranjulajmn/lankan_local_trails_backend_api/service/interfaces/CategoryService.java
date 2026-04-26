@@ -1,17 +1,23 @@
 package com.ranjulajmn.lankan_local_trails_backend_api.service.interfaces;
 
-import com.ranjulajmn.lankan_local_trails_backend_api.dto.CategoryDTO;
+import com.ranjulajmn.lankan_local_trails_backend_api.dto.CategoryResponseDTO;
+import com.ranjulajmn.lankan_local_trails_backend_api.dto.CategoryRequestDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface CategoryService {
-    CategoryDTO create(CategoryDTO dto);
+    CategoryResponseDTO create(CategoryResponseDTO dto);
 
-    List<CategoryDTO> getAll();
+    List<CategoryResponseDTO> getAll();
 
-    CategoryDTO getById(Long id);
+    CategoryResponseDTO getById(Long id);
 
-    CategoryDTO update(Long id, CategoryDTO dto);
+    CategoryResponseDTO update(Long id, CategoryResponseDTO dto);
 
     void softDelete(Long id, Long userId);
+
+    CategoryResponseDTO create(CategoryRequestDTO dto, MultipartFile image);
+
+    CategoryResponseDTO update(Long id, CategoryRequestDTO dto, MultipartFile image);
 }
