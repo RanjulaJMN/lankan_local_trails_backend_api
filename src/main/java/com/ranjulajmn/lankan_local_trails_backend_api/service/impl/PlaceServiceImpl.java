@@ -6,6 +6,7 @@ import com.ranjulajmn.lankan_local_trails_backend_api.dto.PlaceResponseDTO;
 import com.ranjulajmn.lankan_local_trails_backend_api.entity.Place;
 import com.ranjulajmn.lankan_local_trails_backend_api.entity.PlaceCategory;
 import com.ranjulajmn.lankan_local_trails_backend_api.mapper.PlaceMapper;
+import com.ranjulajmn.lankan_local_trails_backend_api.repository.CategoryRepository;
 import com.ranjulajmn.lankan_local_trails_backend_api.repository.PlaceCategoryRepository;
 import com.ranjulajmn.lankan_local_trails_backend_api.repository.PlaceRepository;
 import com.ranjulajmn.lankan_local_trails_backend_api.service.interfaces.PlaceService;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class PlaceServiceImpl implements PlaceService {
     private final PlaceCategoryRepository placeCategoryRepository;
     private final PlaceMapper mapper;
     private final FileStorageService fileStorageService;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public PlaceResponseDTO create(PlaceRequestDTO dto) {
@@ -180,5 +183,38 @@ public class PlaceServiceImpl implements PlaceService {
         return mapper.toDTO(saved, dto.getCategoryIds());
     }
 
+    @Override
+    public List<PlaceResponseDTO> getPlacesByCategory(Long categoryId) {
+        categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category not found with id: " + categoryId));
 
+        List<Place> places = placeRepository.findPlacesByCategoryId(categoryId);
+
+        return places.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    private PlaceResponseDTO convertToResponseDTO(Place place) {
+        PlaceResponseDTO dto = new PlaceResponseDTO();
+        dto.setId(place.getId());
+        dto.setName(place.getName());
+        dto.setDescription(place.getDescription());
+        dto.setLatitude(place.getLatitude());
+        dto.setLongitude(place.getLongitude());
+        dto.setOpeningTime(place.getOpeningTime());
+        dto.setClosingTime(place.getClosingTime());
+        dto.setDistance(place.getDistance());
+        dto.setTravelTips(place.getTravelTips());
+        dto.setImageUrl(place.getImageUrl());
+
+        // Optionally fetch category IDs for this place
+        List<Long> categoryIds = placeCategoryRepository.findByPlaceId(place.getId())
+                .stream()
+                .map(PlaceCategory::getCategoryId)
+                .collect(Collectors.toList());
+        dto.setCategoryIds(categoryIds);
+
+        return dto;
+    }
 }

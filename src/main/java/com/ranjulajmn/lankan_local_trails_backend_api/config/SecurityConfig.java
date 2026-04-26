@@ -28,10 +28,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
+                        .requestMatchers("/api/places/**").permitAll()
+                        .requestMatchers("/api/categories/**").permitAll()
                         .requestMatchers("/api/admin/dashboard/**").hasRole("ADMIN")
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
-                        .requestMatchers("/api/places/**").hasAnyRole("ADMIN")
-                        .requestMatchers("/api/categories/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

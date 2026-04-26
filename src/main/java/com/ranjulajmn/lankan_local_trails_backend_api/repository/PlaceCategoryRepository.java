@@ -8,4 +8,7 @@ import java.util.List;
 public interface PlaceCategoryRepository extends JpaRepository<PlaceCategory, Long> {
     List<PlaceCategory> findByPlaceId(Long placeId);
     void deleteByPlaceId(Long placeId);
+
+    List<PlaceCategory> findByCategoryId(Long categoryId);
+
 }
