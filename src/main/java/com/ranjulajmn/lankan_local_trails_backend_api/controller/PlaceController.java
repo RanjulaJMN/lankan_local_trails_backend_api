@@ -47,8 +47,18 @@ public class PlaceController {
     }
 
     @GetMapping
-    public List<PlaceResponseDTO> getAll() {
-        return placeService.getAll();
+    public ResponseEntity<List<PlaceResponseDTO>> getAll(
+            @RequestParam(required = false) Long categoryId
+    ) {
+        List<PlaceResponseDTO> places;
+        if (categoryId != null && categoryId > 0) {
+            System.out.println("Filtering by category: " + categoryId); // Debug log
+            places = placeService.getPlacesByCategory(categoryId);
+        } else {
+            System.out.println("Getting all places"); // Debug log
+            places = placeService.getAll();
+        }
+        return ResponseEntity.ok(places);
     }
 
     @GetMapping("/{id}")

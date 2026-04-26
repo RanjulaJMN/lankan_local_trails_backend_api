@@ -22,4 +22,7 @@ public interface PlaceService {
     PlaceResponseDTO create(PlaceRequestDTO dto, MultipartFile image);
 
     PlaceResponseDTO update(Long id, PlaceRequestDTO dto, MultipartFile image);
+
+    List<PlaceResponseDTO> getPlacesByCategory(Long categoryId);
+
 }
